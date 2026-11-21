@@ -20,9 +20,7 @@ When you *imagine* squeezing your left or right fist, the brain activity over yo
 
 All results are exploratory, from 30 healthy volunteers. Please read the [limitations](#limitations).
 
-## Why I did this project
 
-I am a physician moving into clinical data science, and I wanted a project that shows three things: that I understand the neuroscience behind the signal, that I can use graph theory and Bayesian modeling for a real question, and that I can validate honestly (no leakage, proper controls, negative results reported). A negative result that is well controlled is worth more than a positive one that is not.
 
 ## Key terms in plain words
 
@@ -72,6 +70,8 @@ The data are downloaded automatically by MNE on first use. Please follow the dat
 ### 1. The pipeline recovers known physiology
 Mu and beta power drop 10-30% after the cue at both C3 and C4. A lateralization index (C3-minus-C4 in left trials minus the same in right trials) is above zero across subjects (one-sided Wilcoxon, p ≈ 0.001-0.003 for the main baseline; median about 16 points in mu and 10 in beta). It was stable across baseline windows and task windows, with 20-21 of 30 subjects in the expected direction. About a third of subjects do not show the pattern, which is typical for motor imagery. The effect is clearer for right-hand imagery than left.
 
+![erd check](figures/erd_check.png)
+
 ### 2. Single-trial wPLI sits mostly on its noise floor
 The median real edge is 0.32 against 0.28-0.29 for surrogates. Only 10% (mu) and 16% (beta) of real edges exceed the surrogates' 95th percentile, where pure noise would give 5%. So there is some structure above the floor, but not much.
 
@@ -88,8 +88,12 @@ The median real edge is 0.32 against 0.28-0.29 for surrogates. Only 10% (mu) and
 
 Two lessons here. First, **differences between group medians of about 0.02-0.03 are noise**: adding pure-noise columns moved a median by that much. I compared models with paired per-subject tests instead, and none of the model differences were significant (for example horseshoe vs L2: p = 0.30-0.40). Second, the horseshoe's connectivity AUCs moved by up to 0.07 when I changed only optimizer settings, because a model shrunk to near-constant predictions ranks trials almost at random.
 
+![cross subject](figures/cross_subject_auc.png)
+
 ### 4. Does connectivity add anything beyond power?
 No detectable benefit. Adding graph metrics or wPLI edges to power did no better than adding the same number of columns of random noise (all four pre-specified comparisons had p > 0.0125). With ARD, adding wPLI edges even did worse than adding noise.
+
+![added value](figures/added_value.png)
 
 ### 5. What do the priors select? (the noise-column test)
 
@@ -100,8 +104,12 @@ No detectable benefit. Adding graph metrics or wPLI edges to power did no better
 
 ARD's selection depended strongly on a single constant it does not learn: changing the pruning threshold took it from keeping nothing to keeping 111 of 132 noise columns. In the cross-validation folds, 15 noise columns were selected in *every* fold, a reminder that being stable across folds is not evidence of importance, since training sets overlap by 28 of 29 subjects. The horseshoe was far more precise but also more conservative. On connectivity features it selected nothing, and because it does select power features, that zero is informative.
 
+![carousel_3_selection](figures/carousel_3_selection.png)
+
 ### 6. The weights make physiological sense
 On power, every feature the horseshoe selected had the sign expected from contralateral ERD (left-hemisphere sites such as C3, FC3 and C1 negative; right-hemisphere sites such as C4 and C6 positive). The effects are small (a one-standard-deviation change in C4 mu power changes the log-odds by about 0.2), consistent with an AUC near 0.6.
+
+![carousel_1_scalp](figures/carousel_1_scalp.png)
 
 ## What I learned (in short)
 
@@ -186,7 +194,7 @@ The analysis code was developed with AI assistance (Claude, Anthropic). I ran th
 - Dataset: Schalk G, McFarland DJ, Hinterberger T, Birbaumer N, Wolpaw JR. *BCI2000: a general-purpose brain-computer interface (BCI) system.* IEEE Trans Biomed Eng 2004; hosted on PhysioNet: Goldberger A, et al. *PhysioBank, PhysioToolkit, and PhysioNet.* Circulation 2000.
 - Tools: MNE-Python, MNE-Connectivity, scikit-learn, NumPyro, JAX.
 - Horseshoe prior: Piironen J, Vehtari A. *Sparsity information and regularization in the horseshoe and other shrinkage priors.* Electronic Journal of Statistics 2017.
-- Code license: choose one before publishing (MIT is common).
+- Channels Selection: Clerc, M., Bougrain, L., & Lotte, F. (Eds.). (2016). Brain–computer interfaces 1: Foundations and methods. ISTE Ltd; John Wiley & Sons, Inc.
+- Code license: MIT.
 - Author: Amany Marey.
 
-*Not a medical device. Research and educational use only.*
