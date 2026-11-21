@@ -1,0 +1,9 @@
+mne
+mne-connectivity
+numpy
+scipy
+pandas
+scikit-learn
+matplotlib
+jax
+numpyro
