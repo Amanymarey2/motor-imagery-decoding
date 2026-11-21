@@ -6,7 +6,7 @@ When you *imagine* squeezing your left or right fist, the brain activity over yo
 
 > Can sparse Bayesian models, working on EEG **connectivity graphs**, decode imagined left vs right hand movement in a person they have never seen, and does connectivity tell us anything that plain **band power** does not?
 
-![Summary figure](figures/hero_linkedin.png)
+![Summary figure](figures/combined.png)
 
 *A: weights of the Bayesian model on band power (red = predicts right-hand imagery, blue = left, black outline = selected). B: accuracy (AUC) on held-out subjects against the range you get with shuffled labels. C: how many real features and how many pure-noise columns each method selects.*
 
