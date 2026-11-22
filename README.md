@@ -129,6 +129,7 @@ On power, every feature the horseshoe selected had the sign expected from contra
 - **The noise controls are one random draw**, and shuffled-label references use only 5 shuffles (500 for the first reliability test), so they are descriptive, not exact p-values.
 - **Exploratory analysis with many comparisons.** I fixed some analyses in advance (subjects, channels, primary noise-control contrasts) and report all results, but this is not a confirmatory study.
 - **Template electrode positions** were used for the Laplacian, and within-subject z-scoring uses the test subject's unlabeled trials.
+- **Bayes prior** Priors were chosen by the author without prior sensitivity analysis; p0 = about 10% of features; connectivity conclusions rest partly on the sparsity assumption, and L2 shows weak diffuse signal.
 
 ## Future work
 
